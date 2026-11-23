@@ -48,7 +48,6 @@ erDiagram
 ```
 Grain of the fact table: one row = one headline. The bridge table is needed because one headline can contain several loaded words, and one word appears in many headlines (many-to-many).
 
-Findings so far: Headlines per outlet per week: Minute Mirror publishes the most (about X a week), followed by Business Recorder and Dawn; APP publishes the least (about Y a week, tracked for only 5 weeks because it was added later). Data check: some feeds include old articles (e.g. a Dawn headline from 2022), so all queries only count headlines published after collection began on 17 September 2026.
-
 ## Findings
-1. **Headlines per outlet per week:** (your finding here)
+1. **Headlines per outlet per week:** Headlines per outlet per week: Minute Mirror publishes the most (about X a week), followed by Business Recorder and Dawn; APP publishes the least (about Y a week, tracked for only 5 weeks because it was added later). Data check: some feeds include old articles (e.g. a Dawn headline from 2022), so all queries only count headlines published after collection began on 17 September 2026.
+2. 
