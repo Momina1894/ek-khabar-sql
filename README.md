@@ -1,5 +1,5 @@
 # Ek Khabar SQL Analysis
-SQL analyses of 8,000+ headlines from 11 Pakistani news outlets, collected by my project Ek Khabar.
+SQL analyses of [N] headlines from [N] Pakistani news outlets, collected by my project Ek Khabar every 30 minutes.
 
 ## Data
 Source: Ek Khabar's SQLite database (latest GitHub release). Not included in this repo.
@@ -7,28 +7,29 @@ Source: Ek Khabar's SQLite database (latest GitHub release). Not included in thi
 ## Data dictionary
 | Table | One row means | Rows | Important columns |
 | --- | --- | --- | --- |
-| headlines | one headline from one outlet | 8,123 | id, outlet, title, published_at, story_id |
-| ... | ... | ... | ... |
+| headlines | one headline from one outlet's RSS feed | [N] | id (key), outlet, title, url, published (can be empty), fetched_at, section |
+| stories | which story (news event) one headline belongs to | [N] | headline_id (links to headlines.id), story_id, clustered_at |
+| meta | one setting saved by the pipeline | [N] | key, value |
+| sqlite_sequence | SQLite's internal ID counter, not analysis data | - | name, seq |
 
-## Star schema
+## Target star schema (to build in Phase 2)
 ```mermaid
 erDiagram
     DIM_OUTLET ||--o{ FACT_HEADLINE : publishes
     DIM_STORY ||--o{ FACT_HEADLINE : groups
-    DIM_DATE ||--o{ FACT_HEADLINE : "published on"
+    DIM_DATE ||--o{ FACT_HEADLINE : "fetched on"
     FACT_HEADLINE ||--o{ BRIDGE_LOADED_WORD : contains
     FACT_HEADLINE {
         int headline_id PK
         int outlet_id FK
         int story_id FK
-        date published_date FK
+        date fetched_date FK
         string section
         int loaded_word_count
     }
     DIM_OUTLET {
         int outlet_id PK
         string outlet_name
-        string outlet_type
     }
     DIM_STORY {
         int story_id PK
@@ -45,6 +46,7 @@ erDiagram
         string word
     }
 ```
+Grain of the fact table: one row = one headline. The bridge table is needed because one headline can contain several loaded words, and one word appears in many headlines (many-to-many).
 
 ## Findings
 1. **Headlines per outlet per week:** (your finding here)
